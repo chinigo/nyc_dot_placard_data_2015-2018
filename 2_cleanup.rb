@@ -5,9 +5,9 @@ Record = Struct.new(*%i(page_num permit_year permit customer_name effective_date
 SCREWY_DATE_REGEX = %r{(?<effective_date>\d+/\d+/\d{2,4})(?<permit_year>\d{4})}
 
 def concat_field(cur_val, new_val)
-  return cur_val if (!new_val || new_val.empty?)
-  return new_val if (!cur_val || cur_val.empty?)
-  return cur_val + ' ' + new_val
+  return cur_val&.gsub(/ +/, ' ') if (!new_val || new_val.empty?)
+  return new_val&.gsub(/ +/, ' ') if (!cur_val || cur_val.empty?)
+  return (cur_val + ' ' + new_val).gsub(/ +/, ' ')
 end
 
 output = CSV.open('./nyc_dot_placards_2015-2018.csv', 'w+')
